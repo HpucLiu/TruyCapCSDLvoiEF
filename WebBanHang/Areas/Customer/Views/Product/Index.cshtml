@@ -1,0 +1,34 @@
+﻿@model List<Product>
+<div class="row">
+    <div id="Category-list" class="col-md-3">
+        <ul class="list-group">
+            @foreach(var x in (List<CategoryViewModel>)ViewBag.dsLoai){
+                <a asp-action="Index" asp-route-id="@x.Id" class="list-group-item d-flex justify-content-between align-items-center">
+                    @x.Name
+                    <span class="badge bg-primary rounded-pill">@x.TotalProduct</span>
+                </a>
+            }
+        </ul>
+    </div>
+    <div id="Product-list" class="col-md-9">
+        <div class="row">
+        @foreach(var x in Model)
+        {
+            <div class="card mb-3 col-md-4">
+                <h3 class="card-header">@x.Name</h3>
+                <div class="card-body">
+                    <h5 class="card-title">Price: @x.Price</h5>
+                </div>
+                @if (!string.IsNullOrEmpty(x.ImageUrl))
+                {
+                    <img src="/@x.ImageUrl" class="img-fluid" />
+                }
+                <div class="card-footer text-muted">
+                    <a href="#" class="card-link btn btn-outline-dark">Detail</a>
+                    <a href="#" class="card-link btn btn-outline-info">Add to Card</a>
+                </div>
+            </div>
+        }
+        </div>
+    </div>
+</div>

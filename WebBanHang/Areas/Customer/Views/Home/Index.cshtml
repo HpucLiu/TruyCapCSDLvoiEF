@@ -20,7 +20,7 @@
         $("#btnLoadMore").click(function(){
             //Dùng hàm ajax của JQuery
             $.ajax({
-                url:"/Home/LoadMore",
+                url:"/Customer/Home/LoadMore",
                 data: {page:currentPage},
                 success: function (data){
                     if($.trim(data) === ' ')
