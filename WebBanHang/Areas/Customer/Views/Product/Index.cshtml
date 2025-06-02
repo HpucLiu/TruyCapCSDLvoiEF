@@ -1,9 +1,10 @@
 ﻿@model List<Product>
 <div class="row">
     <div id="Category-list" class="col-md-3">
+        <h3>CATEGORY LIST</h3>
         <ul class="list-group">
             @foreach(var x in (List<CategoryViewModel>)ViewBag.dsLoai){
-                <a asp-action="Index" asp-route-id="@x.Id" class="list-group-item d-flex justify-content-between align-items-center">
+                <a asp-action="Index" asp-route-id="@x.Id" data-id="@x.Id" class=" id-item list-group-item d-flex justify-content-between align-items-center">
                     @x.Name
                     <span class="badge bg-primary rounded-pill">@x.TotalProduct</span>
                 </a>
@@ -11,13 +12,20 @@
         </ul>
     </div>
     <div id="Product-list" class="col-md-9">
+        @if (Model == null || !Model.Any())
+        {
+            <h3>HÔNG CÓ SẢN PHẨM NÀO HẾT 😘 </h3>
+            
+        }else{
+        <h3>PRODUCT LIST OF @ViewBag.Category_Name</h3>
+        }
         <div class="row">
         @foreach(var x in Model)
         {
             <div class="card mb-3 col-md-4">
                 <h3 class="card-header">@x.Name</h3>
                 <div class="card-body">
-                    <h5 class="card-title">Price: @x.Price</h5>
+                    <h5 class="card-title">Price: @string.Format("{0:#,#00} VND",x.Price)</h5>
                 </div>
                 @if (!string.IsNullOrEmpty(x.ImageUrl))
                 {
@@ -32,3 +40,19 @@
         </div>
     </div>
 </div>
+
+@section Scripts{
+    <script>
+    $(".id-item").click(function(e){
+        e.preventDefault();
+        let id = $(this).data("id");
+        $.ajax({
+            url: "/Customer/Product/LoadProduct_Partial",
+            data: {id: id},
+            success: function(data){
+                $("#Product-list").html(data);
+            }
+        });
+    });
+    </script>
+}

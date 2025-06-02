@@ -25,7 +25,21 @@ namespace WebBanHang.Areas.Customer.Controllers
 
             //Truyền qua View
             ViewBag.dsLoai = dsLoai;
+            ViewBag.Category_Name = _db.Categorise.Find(id).Name;
             return View(dsSanPham);
+        }
+
+        // Trả về view không dùng layout
+        public IActionResult LoadProduct_Partial(int id = 1)
+        {
+            //Lấy dữ liệu từ CSDL
+            var dsLoai = _db.Categorise.OrderBy(x => x.DisplayOrder).ToList();
+            var dsSanPham = _db.Products.Where(x => x.CategoryId == id).ToList();
+
+            //Truyền qua View
+            ViewBag.dsLoai = dsLoai;
+            ViewBag.Category_Name = _db.Categorise.Find(id).Name;
+            return PartialView("ProductPartial",dsSanPham);
         }
     }
 }
